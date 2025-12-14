@@ -31,32 +31,63 @@ function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Prepare form data for Netlify Forms
+    const formData = new FormData(e.target);
     
-    console.log('Form submitted:', formData);
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    
-    // Show success popup
-    setShowSuccessPopup(true);
-    
-    // Reset form after successful submission
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        requirements: '',
-        developers: ''
+    try {
+      // Submit to Netlify Forms
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
       });
-      setSubmitSuccess(false);
-      setShowSuccessPopup(false);
-    }, 3000);
+      
+      if (response.ok) {
+        console.log('Form submitted successfully');
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        
+        // Show success popup
+        setShowSuccessPopup(true);
+        
+        // Reset form after successful submission
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            company: '',
+            requirements: '',
+            developers: ''
+          });
+          setSubmitSuccess(false);
+          setShowSuccessPopup(false);
+        }, 3000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setIsSubmitting(false);
+      // You might want to show an error message here
+    }
   };
 
   return (
     <>
+      {/* Hidden form for Netlify bot detection */}
+      <form 
+        name="contact" 
+        netlify 
+        netlify-honeypot="bot-field" 
+        hidden
+      >
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="text" name="company" />
+        <textarea name="requirements"></textarea>
+        <input type="text" name="developers" />
+      </form>
+
       {/* Success Popup Notification */}
       {showSuccessPopup && (
         <div style={{
@@ -201,12 +232,30 @@ function ContactPage() {
                     <p>We'll contact you within 2 hours during business hours.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit}>
+                  <form 
+                    name="contact" 
+                    method="POST" 
+                    data-netlify="true" 
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Hidden input for Netlify */}
+                    <input type="hidden" name="form-name" value="contact" />
+                    
+                    {/* Honeypot field for spam prevention */}
+                    <div hidden>
+                      <label>
+                        Don't fill this out if you're human: 
+                        <input name="bot-field" />
+                      </label>
+                    </div>
+                    
                     <div className="form-group">
                       <label htmlFor="name">Full Name</label>
                       <input 
                         type="text" 
                         id="name" 
+                        name="name"
                         placeholder="Enter your name" 
                         value={formData.name}
                         onChange={handleInputChange}
@@ -219,6 +268,7 @@ function ContactPage() {
                       <input 
                         type="email" 
                         id="email" 
+                        name="email"
                         placeholder="Enter your email" 
                         value={formData.email}
                         onChange={handleInputChange}
@@ -231,6 +281,7 @@ function ContactPage() {
                       <input 
                         type="text" 
                         id="company" 
+                        name="company"
                         placeholder="Enter your company name" 
                         value={formData.company}
                         onChange={handleInputChange}
@@ -241,10 +292,11 @@ function ContactPage() {
                       <label htmlFor="requirements">Project Requirements</label>
                       <textarea 
                         id="requirements" 
-                        placeholder="Tell us about your project requirements, timeline, and technical needs" 
+                        name="requirements"
+                        placeholder="Describe your project requirements" 
+                        rows="4"
                         value={formData.requirements}
                         onChange={handleInputChange}
-                        required
                       ></textarea>
                     </div>
                     
@@ -252,10 +304,11 @@ function ContactPage() {
                       <label htmlFor="developers">Number of Developers Needed</label>
                       <select 
                         id="developers" 
+                        name="developers"
                         value={formData.developers}
                         onChange={handleInputChange}
                       >
-                        <option value="">Select number</option>
+                        <option value="">Select number of developers</option>
                         <option value="1">1 Developer</option>
                         <option value="2">2 Developers</option>
                         <option value="3">3 Developers</option>
@@ -273,6 +326,7 @@ function ContactPage() {
                     </button>
                   </form>
                 )}
+
               </div>
             </div>
           ) : (

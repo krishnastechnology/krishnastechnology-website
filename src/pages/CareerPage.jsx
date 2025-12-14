@@ -143,34 +143,51 @@ const CareerPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Prepare form data for Netlify Forms
+    const formData = new FormData(e.target);
     
-    console.log('Application submitted:', applicationData);
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    
-    // Show success popup
-    setShowSuccessPopup(true);
-    
-    // Reset form after successful submission
-    setTimeout(() => {
-      setApplicationData({
-        name: '',
-        email: '',
-        phone: '',
-        linkedin: '',
-        github: '',
-        resume: null,
-        coverLetter: '',
-        jobId: '',
-        jobTitle: ''
+    try {
+      // Submit to Netlify Forms
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
       });
-      setSubmitSuccess(false);
-      setShowApplicationForm(false);
-      setSelectedJob(null);
-      setShowSuccessPopup(false);
-    }, 3000);
+      
+      if (response.ok) {
+        console.log('Application submitted successfully');
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        
+        // Show success popup
+        setShowSuccessPopup(true);
+        
+        // Reset form after successful submission
+        setTimeout(() => {
+          setApplicationData({
+            name: '',
+            email: '',
+            phone: '',
+            linkedin: '',
+            github: '',
+            resume: null,
+            coverLetter: '',
+            jobId: '',
+            jobTitle: ''
+          });
+          setSubmitSuccess(false);
+          setShowApplicationForm(false);
+          setSelectedJob(null);
+          setShowSuccessPopup(false);
+        }, 3000);
+      } else {
+        throw new Error('Application submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      setIsSubmitting(false);
+      // You might want to show an error message here
+    }
   };
 
   // Open application form for a specific job
@@ -193,7 +210,25 @@ const CareerPage = () => {
   };
 
   return (
-    <div className="career-page">
+    <div>
+      {/* Hidden form for Netlify bot detection */}
+      <form 
+        name="career-application" 
+        netlify 
+        netlify-honeypot="bot-field" 
+        hidden
+      >
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="tel" name="phone" />
+        <input type="url" name="linkedin" />
+        <input type="url" name="github" />
+        <input type="file" name="resume" />
+        <textarea name="coverLetter"></textarea>
+        <input type="text" name="jobId" />
+        <input type="text" name="jobTitle" />
+      </form>
+
       {/* Success Popup Notification */}
       {showSuccessPopup && (
         <div style={{
@@ -261,109 +296,109 @@ const CareerPage = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
           display: 'flex',
-          alignItems: 'center',
           justifyContent: 'center',
+          alignItems: 'center',
           zIndex: 1000,
           padding: '20px'
         }}>
           <div style={{
             backgroundColor: 'white',
             borderRadius: '12px',
-            maxWidth: '600px',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            maxWidth: '500px',
             width: '100%',
             maxHeight: '90vh',
-            overflowY: 'auto',
-            position: 'relative',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+            overflowY: 'auto'
           }}>
-            <button 
-              onClick={closeApplicationForm}
-              style={{
-                position: 'absolute',
-                top: '15px',
-                right: '15px',
-                background: 'none',
-                border: 'none',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-                color: '#666',
-                width: '36px',
-                height: '36px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '50%',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#f1f5f9'}
-              onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
-            >
-              ×
-            </button>
-            
-            <div style={{ padding: '30px' }}>
-              <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-                <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
-                  backgroundColor: '#dbeafe', 
-                  borderRadius: '50%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '20px',
+              borderBottom: '1px solid #e5e7eb'
+            }}>
+              <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '600' }}>
+                Apply for {selectedJob?.title}
+              </h2>
+              <button 
+                onClick={() => {
+                  setShowApplicationForm(false);
+                  setSelectedJob(null);
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '1.5rem',
+                  cursor: 'pointer',
+                  padding: '0',
+                  width: '30px',
+                  height: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '0 auto 15px',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <FaBriefcase style={{ color: '#3b82f6', fontSize: '24px' }} />
-                </div>
-                <h2 style={{ marginBottom: '10px', color: '#1e293b' }}>Apply for {selectedJob?.title || 'Position'}</h2>
-                <p style={{ color: '#64748b' }}>Fill in your details and upload your resume</p>
-              </div>
-              
+                  borderRadius: '50%',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#f3f4f6'}
+                onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                ×
+              </button>
+            </div>
+            
+            <div style={{ padding: '20px' }}>
               {submitSuccess ? (
                 <div style={{ 
                   backgroundColor: '#dcfce7', 
                   color: '#10b981', 
-                  padding: '25px', 
-                  borderRadius: '12px', 
+                  padding: '20px', 
+                  borderRadius: '8px', 
                   textAlign: 'center',
-                  marginBottom: '20px',
-                  border: '1px solid #bbf7d0'
+                  marginBottom: '20px'
                 }}>
-                  <div style={{ 
-                    width: '50px', 
-                    height: '50px', 
-                    backgroundColor: '#10b981', 
-                    borderRadius: '50%', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    margin: '0 auto 15px'
-                  }}>
-                    <span style={{ color: 'white', fontSize: '24px' }}>✓</span>
-                  </div>
-                  <h3 style={{ marginBottom: '10px', color: '#10b981' }}>Application Submitted Successfully!</h3>
+                  <h3>Application Submitted!</h3>
                   <p>We'll review your application and contact you soon.</p>
                 </div>
               ) : (
-                <form onSubmit={handleApplicationSubmit}>
+                <form 
+                  name="career-application" 
+                  method="POST" 
+                  data-netlify="true" 
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleApplicationSubmit}
+                  encType="multipart/form-data"
+                >
+                  {/* Hidden input for Netlify */}
+                  <input type="hidden" name="form-name" value="career-application" />
+                  <input type="hidden" name="jobId" value={selectedJob?.id || ''} />
+                  <input type="hidden" name="jobTitle" value={selectedJob?.title || ''} />
+                  
+                  {/* Honeypot field for spam prevention */}
+                  <div hidden>
+                    <label>
+                      Don't fill this out if you're human: 
+                      <input name="bot-field" />
+                    </label>
+                  </div>
+                  
                   <div className="form-group" style={{ marginBottom: '20px' }}>
-                    <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Full Name *</label>
+                    <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Full Name</label>
                     <input 
                       type="text" 
                       id="name" 
+                      name="name"
                       placeholder="Enter your full name" 
                       value={applicationData.name}
                       onChange={handleApplicationChange}
-                      required 
+                      required
                       style={{
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box'
                       }}
@@ -379,20 +414,21 @@ const CareerPage = () => {
                   </div>
                   
                   <div className="form-group" style={{ marginBottom: '20px' }}>
-                    <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Email Address *</label>
+                    <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Email Address</label>
                     <input 
                       type="email" 
                       id="email" 
-                      placeholder="Enter your email" 
+                      name="email"
+                      placeholder="Enter your email address" 
                       value={applicationData.email}
                       onChange={handleApplicationChange}
-                      required 
+                      required
                       style={{
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box'
                       }}
@@ -412,15 +448,17 @@ const CareerPage = () => {
                     <input 
                       type="tel" 
                       id="phone" 
+                      name="phone"
                       placeholder="Enter your phone number" 
                       value={applicationData.phone}
                       onChange={handleApplicationChange}
+                      required
                       style={{
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box'
                       }}
@@ -440,6 +478,7 @@ const CareerPage = () => {
                     <input 
                       type="url" 
                       id="linkedin" 
+                      name="linkedin"
                       placeholder="https://linkedin.com/in/yourprofile" 
                       value={applicationData.linkedin}
                       onChange={handleApplicationChange}
@@ -448,7 +487,7 @@ const CareerPage = () => {
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box'
                       }}
@@ -468,6 +507,7 @@ const CareerPage = () => {
                     <input 
                       type="url" 
                       id="github" 
+                      name="github"
                       placeholder="https://github.com/yourusername" 
                       value={applicationData.github}
                       onChange={handleApplicationChange}
@@ -476,7 +516,7 @@ const CareerPage = () => {
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box'
                       }}
@@ -492,22 +532,22 @@ const CareerPage = () => {
                   </div>
                   
                   <div className="form-group" style={{ marginBottom: '20px' }}>
-                    <label htmlFor="resume" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Resume/CV *</label>
+                    <label htmlFor="resume" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Resume</label>
                     <input 
                       type="file" 
                       id="resume" 
-                      accept=".pdf,.doc,.docx"
+                      name="resume"
+                      accept=".pdf,.doc,.docx,.txt"
                       onChange={handleFileChange}
-                      required 
+                      required
                       style={{
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
-                        boxSizing: 'border-box',
-                        backgroundColor: '#f8fafc'
+                        boxSizing: 'border-box'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#3b82f6';
@@ -518,27 +558,29 @@ const CareerPage = () => {
                         e.target.style.boxShadow = 'none';
                       }}
                     />
-                    <small style={{ color: '#94a3b8', fontSize: '14px' }}>Upload your resume in PDF or Word format</small>
+                    <p style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '4px' }}>
+                      PDF, DOC, or DOCX files only
+                    </p>
                   </div>
                   
-                  <div className="form-group" style={{ marginBottom: '25px' }}>
+                  <div className="form-group" style={{ marginBottom: '20px' }}>
                     <label htmlFor="coverLetter" style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#334155' }}>Cover Letter</label>
                     <textarea 
                       id="coverLetter" 
+                      name="coverLetter"
                       placeholder="Tell us why you're interested in this position and what makes you a great fit" 
+                      rows="4"
                       value={applicationData.coverLetter}
                       onChange={handleApplicationChange}
-                      rows="5"
                       style={{
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid #cbd5e1',
-                        fontSize: '16px',
+                        fontSize: '1rem',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
                         boxSizing: 'border-box',
-                        resize: 'vertical',
-                        fontFamily: 'inherit'
+                        resize: 'vertical'
                       }}
                       onFocus={(e) => {
                         e.target.style.borderColor = '#3b82f6';
@@ -551,38 +593,36 @@ const CareerPage = () => {
                     ></textarea>
                   </div>
                   
-                  <input 
-                    type="hidden" 
-                    id="jobId" 
-                    value={applicationData.jobId}
-                  />
-                  
-                  <input 
-                    type="hidden" 
-                    id="jobTitle" 
-                    value={applicationData.jobTitle}
-                  />
-                  
                   <button 
                     type="submit" 
-                    className="btn" 
                     disabled={isSubmitting}
-                    style={{ 
-                      width: '100%', 
-                      padding: '14px', 
-                      fontSize: '16px', 
-                      fontWeight: '600',
-                      borderRadius: '8px',
-                      border: 'none',
-                      backgroundColor: isSubmitting ? '#93c5fd' : '#3b82f6',
+                    style={{
+                      width: '100%',
+                      backgroundColor: '#2563eb',
                       color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '12px 20px',
+                      fontSize: '1rem',
+                      fontWeight: '600',
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                      transition: 'background-color 0.2s'
+                      opacity: isSubmitting ? 0.7 : 1,
+                      transition: 'background-color 0.2s, transform 0.1s'
                     }}
-                    onMouseOver={!isSubmitting ? (e) => e.target.style.backgroundColor = '#2563eb' : undefined}
-                    onMouseOut={!isSubmitting ? (e) => e.target.style.backgroundColor = '#3b82f6' : undefined}
+                    onMouseOver={(e) => {
+                      if (!isSubmitting) e.target.style.backgroundColor = '#1d4ed8';
+                    }}
+                    onMouseOut={(e) => {
+                      if (!isSubmitting) e.target.style.backgroundColor = '#2563eb';
+                    }}
+                    onMouseDown={(e) => {
+                      if (!isSubmitting) e.target.style.transform = 'scale(0.98)';
+                    }}
+                    onMouseUp={(e) => {
+                      if (!isSubmitting) e.target.style.transform = 'scale(1)';
+                    }}
                   >
-                    {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                    {isSubmitting ? 'Submitting Application...' : 'Submit Application'}
                   </button>
                 </form>
               )}
