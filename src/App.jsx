@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
 // Import all page components
@@ -11,10 +11,23 @@ import WhyUsPage from './pages/WhyUsPage';
 import TeamPage from './pages/TeamPage';
 import ContactPage from './pages/ContactPage';
 import IndustriesPage from './pages/IndustriesPage'; // Added Industries page
+import CareerPage from './pages/CareerPage'; // Added Career page
+
+// Scroll to top component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -25,6 +38,7 @@ function App() {
           <Route path="/team" element={<TeamPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/industries" element={<IndustriesPage />} /> {/* Added Industries route */}
+          <Route path="/careers" element={<CareerPage />} /> {/* Added Career route */}
         </Routes>
       </div>
     </Router>

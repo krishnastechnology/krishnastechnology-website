@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUsers, FaLightbulb, FaChartLine, FaRocket, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
 import '../App.css';
+import logo from '../assets/logo.svg'; // Import the detailed logo
 
 const AboutPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -9,25 +10,25 @@ const AboutPage = () => {
   const teamValues = [
     {
       id: 1,
-      icon: <FaUsers />,
+      icon: <FaUsers style={{ fontSize: '2rem', color: '#3498DB' }} />,
       title: "Collaborative Approach",
       description: "We believe in working closely with our clients to understand their unique challenges and goals."
     },
     {
       id: 2,
-      icon: <FaLightbulb />,
+      icon: <FaLightbulb style={{ fontSize: '2rem', color: '#F1C40F' }} />,
       title: "Innovation First",
       description: "Our team stays ahead of industry trends to deliver cutting-edge solutions."
     },
     {
       id: 3,
-      icon: <FaChartLine />,
+      icon: <FaChartLine style={{ fontSize: '2rem', color: '#2ECC71' }} />,
       title: "Results Oriented",
       description: "We focus on measurable outcomes that drive business growth and success."
     },
     {
       id: 4,
-      icon: <FaRocket />,
+      icon: <FaRocket style={{ fontSize: '2rem', color: '#61DAFB' }} />,
       title: "Agile Delivery",
       description: "Our iterative approach ensures rapid development and continuous improvement."
     }
@@ -38,14 +39,22 @@ const AboutPage = () => {
       {/* Header */}
       <header>
         <nav className="navbar">
-          <Link to="/" className="logo">Krishna's Technology</Link>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna's Technology</Link>
+          </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about" className="active">About</Link></li>
             <li><Link to="/services">Services</Link></li>
-            <li><Link to="/how-we-work">How We Work</Link></li>
-            <li><Link to="/why-us">Why Us</Link></li>
+            <li><Link to="/work">How We Work</Link></li>
+            <li><Link to="/why">Why Us</Link></li>
             <li><Link to="/team">Team</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
@@ -209,22 +218,33 @@ const AboutPage = () => {
         <div className="container">
           <div className="footer-content">
             <div className="footer-about">
-              <Link to="/" className="footer-logo">Krishna's Technology</Link>
-              <p>Building reliable technology solutions for businesses worldwide with a focus on quality and innovation.</p>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                gap: '10px',
+                marginBottom: '15px'
+              }}>
+                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              </div>
+              <p>
+                Building trust through transparent partnerships and exceptional technical expertise
+              </p>
               <div className="social-links">
-                <a href="https://linkedin.com/company/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.linkedin.com/company/krishna%E2%80%99s-technology/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaLinkedin />
                 </a>
                 <a href="https://github.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaGithub />
                 </a>
-                <a href="https://instagram.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.instagram.com/krishnatechnology001/" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaInstagram />
                 </a>
-                <a href="https://twitter.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://x.com/krishnasTech001" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaTwitter />
                 </a>
               </div>
+
             </div>
             
             <div className="footer-links">
@@ -240,10 +260,11 @@ const AboutPage = () => {
             <div className="footer-contact">
               <h3 className="footer-heading">Contact Us</h3>
               <ul>
-                <li>Email: contact@krishnastechnology.com</li>
+                <li>Email: krishnatechnology001@gmail.com</li>
                 <li>Phone: +1 (555) 123-4567</li>
               </ul>
             </div>
+
           </div>
           
           <div className="copyright">

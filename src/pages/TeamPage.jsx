@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCode, FaRocket, FaUsers, FaCloud, FaChartLine, FaComments, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaCode, FaRocket, FaUsers, FaCloud, FaChartLine, FaComments, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaJava, FaPython } from 'react-icons/fa';
+import { SiRubyonrails } from 'react-icons/si';
 import '../App.css';
+import logo from '../assets/logo.svg'; // Import the detailed logo
 
 function TeamPage() {
   const [selectedMember, setSelectedMember] = useState(null);
@@ -30,15 +32,15 @@ function TeamPage() {
   const teamMembers = [
     {
       id: 1,
-      icon: <FaCode />,
-      name: "Tech Lead - Backend",
-      experience: "4+ years experience in Ruby on Rails and distributed systems architecture",
+      icon: <SiRubyonrails style={{ fontSize: '2rem', color: '#CC0000' }} />,
+      name: "Ruby on Rails Specialist",
+      experience: "6+ years experience in Ruby on Rails and distributed systems architecture",
       specialization: "Specializes in API development, microservices, and database optimization",
-      skills: ["Ruby on Rails", "PostgreSQL", "Redis", "AWS"]
+      skills: ["Ruby on Rails", "PostgreSQL", "Redis", "AWS", "Sidekiq"]
     },
     {
       id: 2,
-      icon: <FaRocket />,
+      icon: <FaRocket style={{ fontSize: '2rem', color: '#61DAFB' }} />,
       name: "Senior MERN Developer",
       experience: "5+ years experience in full-stack JavaScript development",
       specialization: "Expertise in React, Node.js, MongoDB, and real-time applications",
@@ -46,7 +48,7 @@ function TeamPage() {
     },
     {
       id: 3,
-      icon: <FaUsers />,
+      icon: <FaUsers style={{ fontSize: '2rem', color: '#3498DB' }} />,
       name: "Full-Stack Engineer",
       experience: "6+ years experience in cross-platform development",
       specialization: "Proficient in multiple frontend and backend technologies",
@@ -54,7 +56,7 @@ function TeamPage() {
     },
     {
       id: 4,
-      icon: <FaCloud />,
+      icon: <FaCloud style={{ fontSize: '2rem', color: '#FF9900' }} />,
       name: "DevOps Specialist",
       experience: "5+ years experience in cloud infrastructure and CI/CD pipelines",
       specialization: "AWS certified with expertise in Docker and Kubernetes",
@@ -62,7 +64,7 @@ function TeamPage() {
     },
     {
       id: 5,
-      icon: <FaChartLine />,
+      icon: <FaChartLine style={{ fontSize: '2rem', color: '#2ECC71' }} />,
       name: "Project Manager",
       experience: "6+ years experience in agile project delivery",
       specialization: "Certified Scrum Master with expertise in remote team coordination",
@@ -70,24 +72,65 @@ function TeamPage() {
     },
     {
       id: 6,
-      icon: <FaComments />,
+      icon: <FaComments style={{ fontSize: '2rem', color: '#9B59B6' }} />,
       name: "Operations & Vendor Management",
       experience: "7+ years experience in client relations and vendor management",
       specialization: "Ensures smooth communication and project delivery",
       skills: ["Client Relations", "Vendor Management", "Communication", "Negotiation"]
+    },
+    {
+      id: 7,
+      icon: <FaJava style={{ fontSize: '2rem', color: '#ED8B00' }} />,
+      name: "Senior Java Developer",
+      experience: "6+ years experience in enterprise Java development",
+      specialization: "Expertise in Spring Boot, Hibernate, and Microservices architecture",
+      skills: ["Java", "Spring Boot", "Hibernate", "Microservices", "Maven"]
+    },
+    {
+      id: 8,
+      icon: <FaPython style={{ fontSize: '2rem', color: '#3776AB' }} />,
+      name: "Python & Data Science Specialist",
+      experience: "5+ years experience in Python development and data analytics",
+      specialization: "Machine Learning, Django, Flask, and data visualization",
+      skills: ["Python", "Django", "Flask", "Pandas", "NumPy", "Scikit-learn"]
     }
   ];
 
   const filteredMembers = filter === 'all' 
     ? teamMembers 
-    : teamMembers.filter(member => member.skills.some(skill => skill.toLowerCase().includes(filter)));
+    : teamMembers.filter(member => {
+        if (filter === 'react') {
+          return member.skills.some(skill => skill.toLowerCase().includes('react'));
+        } else if (filter === 'rails') {
+          return member.skills.some(skill => skill.toLowerCase().includes('rails'));
+        } else if (filter === 'java') {
+          return member.skills.some(skill => skill.toLowerCase().includes('java'));
+        } else if (filter === 'python') {
+          return member.skills.some(skill => skill.toLowerCase().includes('python'));
+        } else if (filter === 'devops') {
+          return member.skills.some(skill => 
+            skill.toLowerCase().includes('aws') || 
+            skill.toLowerCase().includes('docker') || 
+            skill.toLowerCase().includes('kubernetes') ||
+            skill.toLowerCase().includes('jenkins')
+          );
+        }
+        return false;
+      });
 
   return (
     <>
       {/* Header */}
       <header>
         <div className="container navbar">
-          <Link to="/" className="logo">Krishna's Technology</Link>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna's Technology</Link>
+          </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -95,7 +138,8 @@ function TeamPage() {
             <li><Link to="/industries">Industries</Link></li>
             <li><Link to="/work">How We Work</Link></li>
             <li><Link to="/why">Why Us</Link></li>
-            <li><Link to="/team">Team</Link></li>
+            <li><Link to="/team" className="active">Team</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
@@ -132,6 +176,20 @@ function TeamPage() {
                 style={{ margin: '5px' }}
               >
                 Ruby on Rails
+              </button>
+              <button 
+                className={`btn ${filter === 'java' ? 'btn-outline' : ''}`}
+                onClick={() => setFilter('java')}
+                style={{ margin: '5px' }}
+              >
+                Java Developers
+              </button>
+              <button 
+                className={`btn ${filter === 'python' ? 'btn-outline' : ''}`}
+                onClick={() => setFilter('python')}
+                style={{ margin: '5px' }}
+              >
+                Python Developers
               </button>
               <button 
                 className={`btn ${filter === 'devops' ? 'btn-outline' : ''}`}
@@ -214,8 +272,69 @@ function TeamPage() {
               </div>
             </div>
             
-            <div className="about-image">
-              Collaborative Team Culture
+            <div className="about-image" style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(2, 1fr)', 
+              gap: '15px',
+              marginTop: '20px'
+            }}>
+              <div style={{ 
+                gridColumn: 'span 2', 
+                textAlign: 'center', 
+                fontWeight: 'bold', 
+                marginBottom: '15px',
+                fontSize: '1.2rem'
+              }}>
+                Collaborative Team Culture
+              </div>
+              <div style={{ 
+                height: '200px', 
+                backgroundColor: '#3b82f6', 
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                Team Collaboration
+              </div>
+              <div style={{ 
+                height: '200px', 
+                backgroundColor: '#8b5cf6', 
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                Remote Work
+              </div>
+              <div style={{ 
+                height: '200px', 
+                backgroundColor: '#10b981', 
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                Knowledge Sharing
+              </div>
+              <div style={{ 
+                height: '200px', 
+                backgroundColor: '#f59e0b', 
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                Continuous Learning
+              </div>
             </div>
           </div>
         </div>
@@ -226,24 +345,33 @@ function TeamPage() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-about">
-              <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                gap: '10px',
+                marginBottom: '15px'
+              }}>
+                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              </div>
               <p>
                 Providing senior software developers on contract for startups and companies.
               </p>
               <div className="social-links">
-                <a href="https://linkedin.com/company/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.linkedin.com/company/krishna%E2%80%99s-technology/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaLinkedin />
                 </a>
                 <a href="https://github.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaGithub />
                 </a>
-                <a href="https://instagram.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.instagram.com/krishnatechnology001/" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaInstagram />
                 </a>
-                <a href="https://twitter.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://x.com/krishnasTech001" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaTwitter />
                 </a>
               </div>
+
             </div>
             <div className="footer-links">
               <h3 className="footer-heading">Services</h3>
@@ -254,12 +382,13 @@ function TeamPage() {
                 <li><Link to="/services#devops">DevOps & Cloud Support</Link></li>
               </ul>
             </div>
-            <div className="footer-links">
+            <div className="footer-contact">
               <h3 className="footer-heading">Contact</h3>
               <ul className="footer-links">
-                <li>contact@krishnastechnology.com</li>
+                <li>krishnatechnology001@gmail.com</li>
               </ul>
             </div>
+
           </div>
           <div className="copyright">
             <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>

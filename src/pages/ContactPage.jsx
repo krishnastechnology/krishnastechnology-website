@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEnvelope, FaPhone, FaClock, FaBuilding, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
 import '../App.css';
+import logo from '../assets/logo.svg'; // Import the detailed logo
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [activeTab, setActiveTab] = useState('form');
 
   // Handle form input changes
@@ -36,6 +38,9 @@ function ContactPage() {
     setIsSubmitting(false);
     setSubmitSuccess(true);
     
+    // Show success popup
+    setShowSuccessPopup(true);
+    
     // Reset form after successful submission
     setTimeout(() => {
       setFormData({
@@ -46,15 +51,58 @@ function ContactPage() {
         developers: ''
       });
       setSubmitSuccess(false);
+      setShowSuccessPopup(false);
     }, 3000);
   };
 
   return (
     <>
+      {/* Success Popup Notification */}
+      {showSuccessPopup && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          backgroundColor: '#10b981',
+          color: 'white',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          animation: 'slideInRight 0.3s ease-out'
+        }}>
+          <div style={{ 
+            width: '30px', 
+            height: '30px', 
+            backgroundColor: 'white', 
+            borderRadius: '50%', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            marginRight: '12px'
+          }}>
+            <span style={{ color: '#10b981', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
+          </div>
+          <div>
+            <div style={{ fontWeight: '600', marginBottom: '4px' }}>Message Sent!</div>
+            <div style={{ fontSize: '14px', opacity: '0.9' }}>We'll contact you soon.</div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header>
         <div className="container navbar">
-          <Link to="/" className="logo">Krishna's Technology</Link>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna's Technology</Link>
+          </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -63,6 +111,7 @@ function ContactPage() {
             <li><Link to="/work">How We Work</Link></li>
             <li><Link to="/why">Why Us</Link></li>
             <li><Link to="/team">Team</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
@@ -104,7 +153,7 @@ function ContactPage() {
                     </div>
                     <div className="contact-text">
                       <h3>Email</h3>
-                      <p>contact@krishnastechnology.com</p>
+                      <p>krishnatechnology001@gmail.com</p>
                     </div>
                   </div>
                   
@@ -242,7 +291,7 @@ function ContactPage() {
                     </div>
                     <div className="contact-text">
                       <h3>Email Us</h3>
-                      <p>contact@krishnastechnology.com</p>
+                      <p>krishnatechnology001@gmail.com</p>
                       <p>For general inquiries and project discussions</p>
                     </div>
                   </div>
@@ -274,23 +323,46 @@ function ContactPage() {
               <div className="contact-form">
                 <h2>Office Location</h2>
                 <div style={{
-                  backgroundColor: '#f1f5f9',
-                  padding: '20px',
-                  borderRadius: '8px',
+                  background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+                  padding: '30px',
+                  borderRadius: '12px',
                   minHeight: '200px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: 'white',
+                  textAlign: 'center'
                 }}>
-                  <div className="contact-icon" style={{ fontSize: '2rem', marginBottom: '15px' }}>
+                  <div className="contact-icon" style={{ 
+                    fontSize: '2.5rem', 
+                    marginBottom: '20px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    width: '70px',
+                    height: '70px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
                     <FaBuilding />
                   </div>
-                  <h3>Our Office</h3>
-                  <p>Krishna's Technology Pvt. Ltd.</p>
-                  <p>123 Business Park, Tech Street</p>
-                  <p>Bangalore, Karnataka 560001</p>
-                  <p>India</p>
+                  <h3 style={{ 
+                    fontSize: '1.8rem',
+                    marginBottom: '15px',
+                    fontWeight: '600'
+                  }}>Our Office</h3>
+                  <div style={{ 
+                    fontSize: '1.1rem',
+                    lineHeight: '1.6'
+                  }}>
+                    <p style={{ margin: '5px 0' }}><strong>Krishna's Technology Pvt. Ltd.</strong></p>
+                    <p style={{ margin: '5px 0' }}>123 Business Park, Tech Street</p>
+                    <p style={{ margin: '5px 0' }}>Bangalore, Karnataka 560001</p>
+                    <p style={{ margin: '5px 0' }}>India</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -316,24 +388,33 @@ function ContactPage() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-about">
-              <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                gap: '10px',
+                marginBottom: '15px'
+              }}>
+                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              </div>
               <p>
                 Providing senior software developers on contract for startups and companies.
               </p>
               <div className="social-links">
-                <a href="https://linkedin.com/company/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.linkedin.com/company/krishna%E2%80%99s-technology/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaLinkedin />
                 </a>
                 <a href="https://github.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaGithub />
                 </a>
-                <a href="https://instagram.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.instagram.com/krishnatechnology001/" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaInstagram />
                 </a>
-                <a href="https://twitter.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://x.com/krishnasTech001" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaTwitter />
                 </a>
               </div>
+
             </div>
             <div className="footer-links">
               <h3 className="footer-heading">Services</h3>
@@ -344,12 +425,13 @@ function ContactPage() {
                 <li><Link to="/services#devops">DevOps & Cloud Support</Link></li>
               </ul>
             </div>
-            <div className="footer-links">
+            <div className="footer-contact">
               <h3 className="footer-heading">Contact</h3>
               <ul className="footer-links">
-                <li>contact@krishnastechnology.com</li>
+                <li>krishnatechnology001@gmail.com</li>
               </ul>
             </div>
+
           </div>
           <div className="copyright">
             <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>

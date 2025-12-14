@@ -106,10 +106,11 @@ function IndustriesPage() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/services">Services</Link></li>
-            <li><Link to="/industries">Industries</Link></li>
+            <li><Link to="/industries" className="active">Industries</Link></li>
             <li><Link to="/work">How We Work</Link></li>
             <li><Link to="/why">Why Us</Link></li>
             <li><Link to="/team">Team</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
@@ -249,19 +250,20 @@ function IndustriesPage() {
                 Providing senior software developers on contract for startups and companies.
               </p>
               <div className="social-links">
-                <a href="https://linkedin.com/company/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.linkedin.com/company/krishna%E2%80%99s-technology/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaLinkedin />
                 </a>
                 <a href="https://github.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaGithub />
                 </a>
-                <a href="https://instagram.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://www.instagram.com/krishnatechnology001/" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaInstagram />
                 </a>
-                <a href="https://twitter.com/krishnastechnology" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a href="https://x.com/krishnasTech001" target="_blank" rel="noopener noreferrer" className="social-link">
                   <FaTwitter />
                 </a>
               </div>
+
             </div>
             <div className="footer-links">
               <h3 className="footer-heading">Services</h3>
@@ -272,12 +274,13 @@ function IndustriesPage() {
                 <li><Link to="/services#devops">DevOps & Cloud Support</Link></li>
               </ul>
             </div>
-            <div className="footer-links">
+            <div className="footer-contact">
               <h3 className="footer-heading">Contact</h3>
               <ul className="footer-links">
-                <li>contact@krishnastechnology.com</li>
+                <li>krishnatechnology001@gmail.com</li>
               </ul>
             </div>
+
           </div>
           <div className="copyright">
             <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
