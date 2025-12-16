@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEnvelope, FaPhone, FaClock, FaBuilding, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaClock, FaBuilding, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaBars } from 'react-icons/fa';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,15 @@ function ContactPage() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [activeTab, setActiveTab] = useState('form');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -131,8 +141,8 @@ function ContactPage() {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
@@ -145,8 +155,13 @@ function ContactPage() {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </div>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Tab Navigation */}
       <section className="contact-section">
@@ -407,14 +422,14 @@ function ContactPage() {
                     fontSize: '1.8rem',
                     marginBottom: '15px',
                     fontWeight: '600'
-                  }}>Our Office</h3>
+                  }}>Our Work Model</h3>
                   <div style={{ 
                     fontSize: '1.1rem',
                     lineHeight: '1.6'
                   }}>
-                    <p style={{ margin: '5px 0' }}><strong>Krishna's Technology Pvt. Ltd.</strong></p>
-                    <p style={{ margin: '5px 0' }}>123 Business Park, Tech Street</p>
-                    <p style={{ margin: '5px 0' }}>Bangalore, Karnataka 560001</p>
+                    <p style={{ margin: '5px 0' }}><strong>Krishna Technology Pvt. Ltd.</strong></p>
+                    <p style={{ margin: '5px 0' }}>We operate as a <strong>remote-first company</strong></p>
+                    <p style={{ margin: '5px 0' }}>Serving clients across India & globally</p>
                     <p style={{ margin: '5px 0' }}>India</p>
                   </div>
                 </div>
@@ -448,8 +463,8 @@ function ContactPage() {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Providing senior software developers on contract for startups and companies.
@@ -488,7 +503,7 @@ function ContactPage() {
 
           </div>
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>

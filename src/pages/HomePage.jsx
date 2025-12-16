@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaRocket, FaUsers, FaCode, FaCloud, FaCheck, FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaLaptopCode, FaMobileAlt, FaDatabase, FaJava } from 'react-icons/fa';
+import { FaRocket, FaUsers, FaCode, FaCloud, FaCheck, FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaLaptopCode, FaMobileAlt, FaDatabase, FaJava, FaBars } from 'react-icons/fa';
 import { SiRubyonrails } from 'react-icons/si';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 const HomePage = () => {
   const [hoveredService, setHoveredService] = useState(null);
   const [hoveredStep, setHoveredStep] = useState(null);
   const [hoveredReason, setHoveredReason] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   const services = [
     {
@@ -111,8 +121,8 @@ const HomePage = () => {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/" className="active">Home</Link></li>
@@ -124,14 +134,19 @@ const HomePage = () => {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </nav>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Hero Section */}
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Transform Your Business with Krishna's Technology</h1>
+            <h1>Transform Your Business with Krishna Technology</h1>
             <p className="hero-subtitle">
               We build reliable software solutions that drive growth and innovation for businesses worldwide.
             </p>
@@ -313,8 +328,8 @@ const HomePage = () => {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Building reliable technology solutions for businesses worldwide with a focus on quality and innovation.
@@ -356,7 +371,7 @@ const HomePage = () => {
           </div>
           
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCode, FaRocket, FaUsers, FaCloud, FaChartLine, FaComments, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaJava, FaPython } from 'react-icons/fa';
+import { FaCode, FaRocket, FaUsers, FaCloud, FaChartLine, FaComments, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaJava, FaPython, FaBars } from 'react-icons/fa';
 import { SiRubyonrails } from 'react-icons/si';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 function TeamPage() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [filter, setFilter] = useState('all');
   const [isVisible, setIsVisible] = useState({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -128,8 +138,8 @@ function TeamPage() {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
@@ -142,8 +152,13 @@ function TeamPage() {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </div>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Team Section - Full Page Version */}
       <section className="our-team-section">
@@ -351,8 +366,8 @@ function TeamPage() {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Providing senior software developers on contract for startups and companies.
@@ -391,7 +406,7 @@ function TeamPage() {
 
           </div>
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>

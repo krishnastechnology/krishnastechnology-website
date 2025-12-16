@@ -17,7 +17,7 @@ const HeroSection = () => {
   return (
     <section className="hero-section">
       <div className="hero-content">
-        <h1>Krishna's Technology</h1>
+        <h1>Krishna Technology</h1>
         <p className="tagline">
           We Provide Senior Software Developers on Contract
           <br />

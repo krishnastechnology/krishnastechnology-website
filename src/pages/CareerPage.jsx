@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBriefcase, FaGraduationCap, FaMedal, FaHandsHelping, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaMedal, FaHandsHelping, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaBars } from 'react-icons/fa';
 import { SiRubyonrails } from 'react-icons/si';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 const CareerPage = () => {
   const [activeJob, setActiveJob] = useState(null);
@@ -23,6 +24,15 @@ const CareerPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   const jobOpenings = [
     {
@@ -210,7 +220,7 @@ const CareerPage = () => {
   };
 
   return (
-    <div>
+    <>
       {/* Hidden form for Netlify bot detection */}
       <form 
         name="career-application" 
@@ -272,21 +282,27 @@ const CareerPage = () => {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/services">Services</Link></li>
+            <li><Link to="/industries">Industries</Link></li>
             <li><Link to="/work">How We Work</Link></li>
             <li><Link to="/why">Why Us</Link></li>
             <li><Link to="/team">Team</Link></li>
             <li><Link to="/careers" className="active">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </nav>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Application Form Modal */}
       {showApplicationForm && (
@@ -654,7 +670,7 @@ const CareerPage = () => {
       <section className="about-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Why Join Krishna's Technology</h2>
+            <h2 className="section-title">Why Join Krishna Technology</h2>
             <p className="section-description">
               We offer more than just a job – we provide an environment where you can grow professionally while making a real impact.
             </p>
@@ -740,7 +756,7 @@ const CareerPage = () => {
       <section className="why-choose-us-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Life at Krishna's Technology</h2>
+            <h2 className="section-title">Life at Krishna Technology</h2>
             <p className="section-description">
               We foster a culture of collaboration, innovation, and continuous learning
             </p>
@@ -749,7 +765,7 @@ const CareerPage = () => {
           <div className="about-content">
             <div className="about-text">
               <p>
-                At Krishna's Technology, we believe that happy developers create exceptional products. 
+                At Krishna Technology, we believe that happy developers create exceptional products. 
                 Our remote-first culture allows team members to work from anywhere while staying connected 
                 through regular virtual meetups and annual retreats.
               </p>
@@ -825,8 +841,8 @@ const CareerPage = () => {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Building the future with talented developers and innovative technology solutions.
@@ -865,11 +881,11 @@ const CareerPage = () => {
 
           </div>
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 

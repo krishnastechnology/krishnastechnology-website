@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaUsers, FaLightbulb, FaChartLine, FaRocket, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaUsers, FaLightbulb, FaChartLine, FaRocket, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaBars } from 'react-icons/fa';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 const AboutPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   const teamValues = [
     {
@@ -44,8 +54,8 @@ const AboutPage = () => {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
@@ -57,14 +67,19 @@ const AboutPage = () => {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </nav>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Hero Section */}
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>About Krishna's Technology</h1>
+            <h1>About Krishna Technology</h1>
             <p className="hero-subtitle">
               Building trust through transparent partnerships and exceptional technical expertise
             </p>
@@ -80,7 +95,7 @@ const AboutPage = () => {
               <h2>Our Story</h2>
               <p>
                 Founded with a vision to bridge the gap between innovative technology and practical business solutions, 
-                Krishna's Technology has grown into a trusted partner for businesses seeking digital transformation.
+                Krishna Technology has grown into a trusted partner for businesses seeking digital transformation.
               </p>
               <p>
                 Our journey began with a small team of passionate developers who believed in delivering quality 
@@ -224,8 +239,8 @@ const AboutPage = () => {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Building trust through transparent partnerships and exceptional technical expertise
@@ -268,7 +283,7 @@ const AboutPage = () => {
           </div>
           
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>

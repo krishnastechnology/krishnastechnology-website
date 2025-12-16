@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaCode, FaRocket, FaUsers, FaCloud, FaServer, FaDatabase, FaMobile, FaDesktop, FaAws, FaDocker, FaJenkins, FaJava, FaPython, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaCode, FaRocket, FaUsers, FaCloud, FaServer, FaDatabase, FaMobile, FaDesktop, FaAws, FaDocker, FaJenkins, FaJava, FaPython, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaBars } from 'react-icons/fa';
 import { SiRubyonrails } from 'react-icons/si';
 import '../App.css';
-import logo from '../assets/logo.svg'; // Import the detailed logo
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 function ServicesPage() {
   const [expandedService, setExpandedService] = useState(null);
   const [isVisible, setIsVisible] = useState({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -42,8 +52,8 @@ function ServicesPage() {
             alignItems: 'center',
             gap: '10px'
           }}>
-            <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-            <Link to="/" className="logo">Krishna's Technology</Link>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
@@ -55,8 +65,13 @@ function ServicesPage() {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </div>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Services Section - Full Page Version */}
       <section className="services-section">
@@ -280,8 +295,8 @@ function ServicesPage() {
                 gap: '10px',
                 marginBottom: '15px'
               }}>
-                <img src={logo} alt="Krishna's Technology Logo" style={{ width: '40px', height: '40px' }} />
-                <Link to="/" className="footer-logo">Krishna's Technology</Link>
+                <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+                <Link to="/" className="footer-logo">Krishna Technology</Link>
               </div>
               <p>
                 Providing senior software developers on contract for startups and companies.
@@ -322,7 +337,7 @@ function ServicesPage() {
 
           </div>
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>

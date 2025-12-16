@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaLightbulb, FaChartLine, FaSync, FaTools, FaLinkedin, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaLightbulb, FaChartLine, FaSync, FaTools, FaLinkedin, FaGithub, FaInstagram, FaTwitter, FaBars } from 'react-icons/fa';
 import '../App.css';
+import logo from '../assets/logo.svg';
+import MobileMenu from '../components/MobileMenu';
 
 function IndustriesPage() {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
   const [isVisible, setIsVisible] = useState({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -101,7 +112,14 @@ function IndustriesPage() {
       {/* Header */}
       <header>
         <div className="container navbar">
-          <Link to="/" className="logo">Krishna's Technology</Link>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <img src={logo} alt="Krishna Technology Logo" style={{ width: '40px', height: '40px' }} />
+            <Link to="/" className="logo">Krishna Technology</Link>
+          </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
@@ -113,8 +131,13 @@ function IndustriesPage() {
             <li><Link to="/careers">Careers</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
+          <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+            <FaBars />
+          </button>
         </div>
       </header>
+
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
 
       {/* Industries Section - Full Page Version */}
       <section className="stats-section">
@@ -245,7 +268,7 @@ function IndustriesPage() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-about">
-              <Link to="/" className="footer-logo">Krishna's Technology</Link>
+              <Link to="/" className="footer-logo">Krishna Technology</Link>
               <p>
                 Providing senior software developers on contract for startups and companies.
               </p>
@@ -283,7 +306,7 @@ function IndustriesPage() {
 
           </div>
           <div className="copyright">
-            <p>&copy; 2025 Krishna's Technology. All rights reserved.</p>
+            <p>&copy; 2025 Krishna Technology. All rights reserved.</p>
           </div>
         </div>
       </footer>
